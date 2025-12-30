@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTelcoShop - Jual Paket Kuota & Pulsa Murah</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        /* Warna tema Bukalapak */
+        .bg-bukalapak-green {
+            background-color: #3EB52F;
+        }
+        
+        .text-bukalapak-green {
+            color: #3EB52F;
+        }
+        
+        .bg-bukalapak-blue {
+            background-color: #1A6DFF;
+        }
+        
+        .text-bukalapak-blue {
+            color: #1A6DFF;
+        }
+        
+        .bg-bukalapak-red {
+            background-color: #FF4444;
+        }
+        
+        .text-bukalapak-red {
+            color: #FF4444;
+        }
+        
+        .border-bukalapak-green {
+            border-color: #3EB52F;
+        }
+        
+        /* Warna untuk provider baru */
+        .bg-byu {
+            background-color: #FF6B6B;
+        }
+        
+        .text-byu {
+            color: #FF6B6B;
+        }
+        
+        .bg-smartfren {
+            background-color: #FFA726;
+        }
+        
+        .text-smartfren {
+            color: #FFA726;
+        }
+        
+        /* Styling umum */
+        .operator-btn {
+            transition: all 0.2s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .operator-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .package-card {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: #3EB52F;
+        }
+        
+        .best-seller {
+            position: relative;
+            border: 2px solid #FF4444;
+        }
+        
+        .best-seller-tag {
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            background: #FF4444;
+            color: white;
+            padding: 4px 30px;
+            font-size: 11px;
+            font-weight: 600;
+            transform: rotate(45deg);
+            z-index: 10;
+        }
+        
+        .whatsapp-btn {
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #25D366;
+            transform: scale(1.02);
+        }
+        
+        /* Cart styles */
+        .cart-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background-color: #FF4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .cart-item {
+            transition: all 0.2s ease;
+            border-radius: 8px;
+        }
+        
+        .cart-item:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .cart-sidebar {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        
+        .cart-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s;
+        }
+        
+        .cart-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Bukalapak-like header */
+        .header-bottom {
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        /* Category card */
+        .category-card {
+            border-radius: 10px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        
+        .category-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .category-card.active {
+            border-width: 2px;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Discount badge */
+        .discount-badge {
+            background-color: #FF4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        /* Price tag */
+        .price-tag {
+            font-weight: 700;
+            color: #1a202c;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1a1;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.4s ease forwards;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-30">
+        <!-- Top Header -->
+        <div class="bg-bukalapak-green text-white py-2" style="background-color: #3EB52F !important;">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="flex items-center space-x-4 text-sm">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt mr-2"></i>
+                        <span>Kirim ke <strong>Seluruh Indonesia</strong></span>
+                    </div>
+                    <div class="hidden md:block">
+                        <i class="fas fa-clock mr-2"></i>
+                        <span>Buka 24 Jam</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4 text-sm">
+                    <a href="#" class="hover:underline hidden md:block">
+                        <i class="fas fa-question-circle mr-1"></i> Bantuan
+                    </a>
+                    <a href="#" class="hover:underline hidden md:block">
+                        <i class="fas fa-headset mr-1"></i> Hubungi Kami
+                    </a>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-circle mr-2"></i>
+                        <span>Akun Saya</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Header - DENGAN SEARCH BAR -->
+        <div class="header-bottom">
+            <div class="container mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <!-- Logo -->
+                    <div class="flex items-center space-x-2">
+                        <div class="bg-bukalapak-green text-white p-2 rounded-lg">
+                            <i class="fas fa-sim-card text-xl"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-800">MyTelco<span class="text-bukalapak-green">Shop</span></h1>
+                            <p class="text-xs text-gray-500 -mt-1">Pulsa & Paket Data</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Bar - DITAMBAHKAN -->
+                    <div class="hidden md:flex flex-1 mx-6 max-w-lg">
+                        <div class="relative w-full">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="search-input" 
+                                class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-bukalapak-green focus:ring-1 focus:ring-bukalapak-green" 
+                                placeholder="Cari paket kuota (misal: 10GB, 25GB, Unlimited...)"
+                            >
+                            <button 
+                                id="clear-search" 
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center hidden"
+                            >
+                                <i class="fas fa-times text-gray-400 hover:text-gray-600"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Cart & Actions -->
+                    <div class="flex items-center space-x-4">
+                        <!-- Cart Button -->
+                        <button id="cart-toggle" class="relative">
+                            <div class="text-gray-700 hover:text-bukalapak-green transition p-2">
+                                <i class="fas fa-shopping-cart text-xl"></i>
+                                <span id="cart-count" class="cart-badge">0</span>
+                            </div>
+                        </button>
+                        
+                        <!-- WhatsApp Button -->
+                        <a href="https://wa.me/6281234567890" target="_blank" class="hidden md:flex items-center space-x-2 bg-bukalapak-green text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp"></i>
+                            <span class="text-sm font-medium">WhatsApp</span>
+                        </a>
+                        
+                        <!-- Mobile Menu Button -->
+                        <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                            <i class="fas fa-bars text-2xl"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Search Bar Mobile - DITAMBAHKAN -->
+                <div class="mt-3 md:hidden">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="search-input-mobile" 
+                            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-bukalapak-green focus:ring-1 focus:ring-bukalapak-green" 
+                            placeholder="Cari paket kuota..."
+                        >
+                        <button 
+                            id="clear-search-mobile" 
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center hidden"
+                        >
+                            <i class="fas fa-times text-gray-400 hover:text-gray-600"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Categories Navigation -->
+        <div class="hidden md:block border-t">
+            <div class="container mx-auto px-4">
+                <nav class="flex space-x-8 py-3">
+                    <a href="#home" class="font-medium text-gray-700 hover:text-bukalapak-green py-2 border-b-2 border-transparent hover:border-bukalapak-green transition">Beranda</a>
+                    <a href="#packages" class="font-medium text-gray-700 hover:text-bukalapak-green py-2 border-b-2 border-transparent hover:border-bukalapak-green transition">Paket Kuota</a>
+                    <a href="#pulsa" class="font-medium text-gray-700 hover:text-bukalapak-green py-2 border-b-2 border-transparent hover:border-bukalapak-green transition">Pulsa</a>
+                    <a href="#how-to-order" class="font-medium text-gray-700 hover:text-bukalapak-green py-2 border-b-2 border-transparent hover:border-bukalapak-green transition">Cara Pesan</a>
+                </nav>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white border-t px-4 py-3">
+            <div class="flex flex-col space-y-3">
+                <a href="#home" class="font-medium text-gray-700 hover:text-bukalapak-green py-2">Beranda</a>
+                <a href="#packages" class="font-medium text-gray-700 hover:text-bukalapak-green py-2">Paket Kuota</a>
+                <a href="#pulsa" class="font-medium text-gray-700 hover:text-bukalapak-green py-2">Pulsa</a>
+                <a href="#how-to-order" class="font-medium text-gray-700 hover:text-bukalapak-green py-2">Cara Pesan</a>
+                <div class="pt-4 border-t">
+                    <a href="https://wa.me/6281234567890" target="_blank" class="bg-bukalapak-green text-white px-4 py-3 rounded-lg font-medium hover:bg-green-600 transition flex items-center justify-center">
+                        <i class="fab fa-whatsapp mr-2"></i> Pesan via WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-overlay" class="cart-overlay fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+    
+    <div id="cart-sidebar" class="cart-sidebar fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-xl z-50 overflow-y-auto">
+        <div class="p-5">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center">
+                    <i class="fas fa-shopping-cart mr-3 text-bukalapak-green"></i>Keranjang Belanja
+                </h2>
+                <button id="cart-close" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="cart-items" class="mb-6">
+                <!-- Cart items will be loaded here -->
+                <div id="cart-empty" class="text-center py-10">
+                    <div class="text-gray-300 text-6xl mb-4">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <p class="text-gray-500 font-medium">Keranjang belanja kosong</p>
+                    <p class="text-gray-400 text-sm mt-2">Tambahkan paket kuota atau pulsa dari halaman produk</p>
+                </div>
+            </div>
+            
+            <div class="border-t pt-4">
+                <div class="flex justify-between items-center mb-4">
+                    <div>
+                        <span class="text-gray-700 font-medium">Total Belanja:</span>
+                        <p class="text-xs text-gray-500">Termasuk semua biaya</p>
+                    </div>
+                    <span id="cart-total" class="text-2xl font-bold text-bukalapak-green">Rp 0</span>
+                </div>
+                
+                <button id="checkout-btn" class="whatsapp-btn w-full bg-bukalapak-green text-white py-3 rounded-lg font-medium text-lg flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    <i class="fab fa-whatsapp mr-3 text-xl"></i> Pesan via WhatsApp
+                </button>
+                
+                <button id="clear-cart" class="w-full bg-gray-100 text-gray-700 py-3 rounded-lg font-medium mt-3 hover:bg-gray-200 transition flex items-center justify-center">
+                    <i class="fas fa-trash-alt mr-2"></i> Kosongkan Keranjang
+                </button>
+                
+                <div class="text-xs text-gray-500 text-center mt-4">
+                    <i class="fas fa-shield-alt mr-1"></i> Transaksi aman & terpercaya
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Banner -->
+    <section id="home" style="background-color: #3EB52F !important;" class="text-white">
+        <div class="container mx-auto px-4 py-8 md:py-12">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4">Beli Pulsa & Paket Data <span class="text-yellow-300">Murah</span></h1>
+                    <p class="text-lg mb-6 opacity-90">Harga terjangkau untuk semua operator. Proses cepat, aman, dan terpercaya.</p>
+                    
+                    <div class="flex flex-wrap gap-3">
+                        <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-bolt text-yellow-300 mr-2"></i>
+                                <span class="font-medium">Proses Instan</span>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-shield-alt text-yellow-300 mr-2"></i>
+                                <span class="font-medium">100% Aman</span>
+                            </div>
+                        </div>
+                        <div class="bg-white bg-opacity-20 rounded-lg px-4 py-2">
+                            <div class="flex items-center">
+                                <i class="fas fa-headset text-yellow-300 mr-2"></i>
+                                <span class="font-medium">Bantuan 24 Jam</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8">
+                        <a href="#packages" class="bg-white text-bukalapak-green px-6 py-3 rounded-lg font-medium text-lg hover:bg-gray-100 transition inline-flex items-center">
+                            <i class="fas fa-shopping-cart mr-2"></i> Beli Sekarang
+                        </a>
+                        <button id="view-cart-btn-mobile" class="md:hidden bg-white bg-opacity-20 text-white px-6 py-3 rounded-lg font-medium text-lg hover:bg-opacity-30 transition inline-flex items-center ml-4">
+                            <i class="fas fa-shopping-cart mr-2"></i> Lihat Keranjang
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="bg-white bg-opacity-10 rounded-2xl p-6 backdrop-blur-sm">
+                            <div class="text-center">
+                                <div class="text-5xl text-yellow-300 mb-4">
+                                    <i class="fas fa-wifi"></i>
+                                </div>
+                                <h3 class="text-xl font-bold mb-2">Harga Terjangkau!</h3>
+                                <p class="mb-4">Paket kuota semua operator dengan harga terbaik</p>
+                                <div class="text-2xl font-bold text-yellow-300">
+                                    Mulai dari Rp 10.000
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section - DIKOREKSI: HAPUS KATEGORI SEMUA -->
+    <section class="container mx-auto px-4 py-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Kategori Produk</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
+            <!-- Kategori Semua dihapus, hanya operator saja -->
+            
+            <div class="category-card bg-white p-4 text-center border hover:border-red-500 cursor-pointer" data-operator="telkomsel">
+                <div class="bg-red-50 text-red-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Telkomsel</span>
+            </div>
+            
+            <div class="category-card bg-white p-4 text-center border hover:border-blue-600 cursor-pointer" data-operator="xl">
+                <div class="bg-blue-50 text-blue-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">XL</span>
+            </div>
+            
+            <div class="category-card bg-white p-4 text-center border hover:border-purple-600 cursor-pointer" data-operator="axis">
+                <div class="bg-purple-50 text-purple-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Axis</span>
+            </div>
+            
+            <div class="category-card bg-white p-4 text-center border hover:border-green-600 cursor-pointer" data-operator="indosat">
+                <div class="bg-green-50 text-green-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Indosat</span>
+            </div>
+            
+            <div class="category-card bg-white p-4 text-center border hover:border-yellow-600 cursor-pointer" data-operator="three">
+                <div class="bg-yellow-50 text-yellow-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Tri</span>
+            </div>
+            
+            <!-- Tambahan By.U -->
+            <div class="category-card bg-white p-4 text-center border hover:border-pink-500 cursor-pointer" data-operator="byu">
+                <div class="bg-pink-50 text-pink-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">By.U</span>
+            </div>
+            
+            <!-- Tambahan Smartfren -->
+            <div class="category-card bg-white p-4 text-center border hover:border-orange-500 cursor-pointer" data-operator="smartfren">
+                <div class="bg-orange-50 text-orange-600 w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-sim-card text-xl"></i>
+                </div>
+                <span class="text-sm font-medium text-gray-700">Smartfren</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Packages Section - DENGAN FILTER KUOTA -->
+    <section id="packages" class="container mx-auto px-4 py-8">
+        <div class="mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-800">Paket Kuota Internet</h2>
+                    <p class="text-gray-600 mt-2">Pilih paket kuota sesuai kebutuhan Anda</p>
+                </div>
+                
+                <!-- Filter Kuota - DITAMBAHKAN -->
+                <div class="flex flex-wrap gap-3">
+                    <div class="flex items-center">
+                        <label class="text-gray-700 text-sm mr-2">Filter Kuota:</label>
+                        <select id="quota-filter" class="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-bukalapak-green focus:ring-1 focus:ring-bukalapak-green">
+                            <option value="all">Semua Kuota</option>
+                            <option value="0-10">≤ 10GB</option>
+                            <option value="11-20">11-20GB</option>
+                            <option value="21-30">21-30GB</option>
+                            <option value="31-50">31-50GB</option>
+                            <option value="51+">> 50GB</option>
+                            <option value="unlimited">Unlimited</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Tampilkan hasil pencarian - DITAMBAHKAN -->
+                    <div id="search-results-info" class="hidden">
+                        <span class="text-sm text-gray-600">Hasil pencarian: </span>
+                        <span id="search-keyword" class="text-sm font-medium text-bukalapak-green"></span>
+                        <button id="clear-all-filters" class="ml-2 text-sm text-red-500 hover:text-red-700">
+                            <i class="fas fa-times mr-1"></i>Hapus filter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="packages-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Package cards akan di-load dari JSON -->
+            <div class="text-center col-span-4 py-12">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-bukalapak-green"></div>
+                <p class="mt-4 text-gray-600">Memuat paket kuota...</p>
+            </div>
+        </div>
+        
+        <!-- Pesan jika tidak ada hasil - DITAMBAHKAN -->
+        <div id="no-results" class="hidden text-center col-span-4 py-12">
+            <div class="inline-block text-gray-300 text-5xl mb-4">
+                <i class="fas fa-search"></i>
+            </div>
+            <p class="text-gray-600 font-medium">Tidak ditemukan paket yang sesuai</p>
+            <p class="text-gray-500 text-sm mt-2">Coba kata kunci lain atau hapus filter</p>
+        </div>
+        
+        <div class="mt-10 text-center">
+            <button id="load-more-packages" class="bg-white text-bukalapak-green border border-bukalapak-green px-6 py-3 rounded-lg font-medium hover:bg-bukalapak-green hover:text-white transition">
+                <i class="fas fa-redo mr-2"></i> Muat Lebih Banyak
+            </button>
+        </div>
+    </section>
+
+    <!-- Pulsa Section -->
+    <section id="pulsa" class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Isi Pulsa & Paket Telepon</h2>
+                <p class="text-gray-600 mt-2">Isi pulsa semua operator dengan harga spesial</p>
+            </div>
+            
+            <div class="bg-white rounded-xl shadow-sm p-6">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Pulsa Items -->
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 5.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-5"
+                                data-name="Pulsa Rp 5.000"
+                                data-price="5000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 10.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-10"
+                                data-name="Pulsa Rp 10.000"
+                                data-price="10000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 25.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-25"
+                                data-name="Pulsa Rp 25.000"
+                                data-price="25000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 50.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-50"
+                                data-name="Pulsa Rp 50.000"
+                                data-price="50000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 100.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-100"
+                                data-name="Pulsa Rp 100.000"
+                                data-price="100000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                    
+                    <div class="border rounded-lg p-4 text-center hover:border-bukalapak-green hover:shadow-md transition">
+                        <div class="price-tag text-lg mb-1">Rp 200.000</div>
+                        <div class="text-xs text-gray-500 mb-3">Semua Operator</div>
+                        <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg text-sm font-medium hover:bg-green-600 transition flex items-center justify-center" 
+                                data-id="pulsa-200"
+                                data-name="Pulsa Rp 200.000"
+                                data-price="200000"
+                                data-type="pulsa">
+                            <i class="fas fa-cart-plus mr-2"></i> Tambah
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How to Order -->
+    <section id="how-to-order" class="bg-gray-50 py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-10">Cara Berbelanja di MyTelcoShop</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md text-bukalapak-green border-2 border-bukalapak-green">
+                        1
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Pilih Produk</h4>
+                    <p class="text-gray-600 text-sm">Cari dan pilih paket kuota atau pulsa yang diinginkan</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md text-bukalapak-green border-2 border-bukalapak-green">
+                        2
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Tambahkan ke Keranjang</h4>
+                    <p class="text-gray-600 text-sm">Klik tombol "Tambah ke Keranjang" pada produk pilihan</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md text-bukalapak-green border-2 border-bukalapak-green">
+                        3
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Checkout</h4>
+                    <p class="text-gray-600 text-sm">Buka keranjang dan klik "Pesan via WhatsApp"</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="bg-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md text-bukalapak-green border-2 border-bukalapak-green">
+                        4
+                    </div>
+                    <h4 class="text-lg font-bold text-gray-800 mb-2">Konfirmasi & Bayar</h4>
+                    <p class="text-gray-600 text-sm">Lakukan pembayaran dan produk akan diaktifkan</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <div class="bg-bukalapak-green text-white p-2 rounded-lg">
+                            <i class="fas fa-sim-card text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">MyTelco<span class="text-bukalapak-green">Shop</span></h2>
+                    </div>
+                    <p class="text-gray-400 text-sm">Platform terpercaya untuk pembelian paket kuota dan pulsa semua operator dengan harga terbaik.</p>
+                    
+                    <div class="flex space-x-4 mt-6">
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="bg-gray-700 hover:bg-gray-600 w-10 h-10 rounded-full flex items-center justify-center">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Layanan</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#packages" class="text-gray-400 hover:text-white transition text-sm">Paket Kuota</a></li>
+                        <li><a href="#pulsa" class="text-gray-400 hover:text-white transition text-sm">Pulsa</a></li>
+                        <li><a href="#how-to-order" class="text-gray-400 hover:text-white transition text-sm">Cara Pesan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Hubungi Kami</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Bantuan</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Pusat Bantuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Syarat & Ketentuan</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">Kebijakan Privasi</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition text-sm">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-4">Hubungi Kami</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-start">
+                            <i class="fab fa-whatsapp text-bukalapak-green mr-3 mt-1"></i>
+                            <div>
+                                <a href="https://wa.me/6281234567890" target="_blank" class="font-medium hover:underline">+62 812-3456-7890</a>
+                                <p class="text-gray-400 text-sm">WhatsApp 24 Jam</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-bukalapak-green mr-3 mt-1"></i>
+                            <div>
+                                <span class="font-medium">cs@mytelcoshop.com</span>
+                                <p class="text-gray-400 text-sm">Email Support</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-clock text-bukalapak-green mr-3 mt-1"></i>
+                            <div>
+                                <span class="font-medium">Buka 24 Jam</span>
+                                <p class="text-gray-400 text-sm">Setiap Hari</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400 text-sm">
+                <p>&copy; 2023 MyTelcoShop. Hak Cipta Dilindungi Undang-Undang.</p>
+                <p class="mt-2">Semua merek dagang adalah milik dari pemiliknya masing-masing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <button id="whatsapp-float" class="fixed bottom-6 right-6 bg-bukalapak-green text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition transform hover:scale-110 z-20">
+        <i class="fab fa-whatsapp text-2xl"></i>
+    </button>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Konfirmasi Pesanan</h3>
+                <button id="cancelOrder" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <div class="mb-6">
+                <div id="modal-items" class="mb-4 p-4 bg-gray-50 rounded-lg max-h-48 overflow-y-auto">
+                    <!-- Items will be added here -->
+                </div>
+                
+                <div class="flex justify-between items-center p-3 bg-bukalapak-green bg-opacity-10 rounded-lg">
+                    <span class="font-medium text-gray-800">Total Pembayaran:</span>
+                    <span id="modal-total" class="text-xl font-bold text-bukalapak-green">Rp 0</span>
+                </div>
+            </div>
+            
+            <form id="orderForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium mb-2 text-sm" for="phone">Nomor Handphone</label>
+                    <input type="tel" id="phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-bukalapak-green focus:ring-1 focus:ring-bukalapak-green text-sm" placeholder="Contoh: 081234567890" required>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-700 font-medium mb-2 text-sm" for="email">Email (Opsional)</label>
+                    <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-bukalapak-green focus:ring-1 focus:ring-bukalapak-green text-sm" placeholder="email@anda.com">
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button type="submit" class="flex-1 bg-bukalapak-green text-white py-3 rounded-lg font-medium hover:bg-green-600 transition flex items-center justify-center text-sm">
+                        <i class="fab fa-whatsapp mr-2"></i> Lanjut ke WhatsApp
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Data JSON untuk paket kuota -->
+    <script id="packages-data" type="application/json">
+        {
+            "packages": [
+                {
+                    "id": 1,
+                    "name": "Kuota Internet 10GB",
+                    "operator": "telkomsel",
+                    "price": 50000,
+                    "duration": "30 Hari",
+                    "quota": 10,
+                    "description": "Kuota 10GB (8GB Reguler + 2GB Apps) berlaku 30 hari. Cocok untuk browsing, media sosial, dan streaming.",
+                    "features": ["8GB Kuota Reguler", "2GB Kuota Apps (YouTube, Instagram)", "Masa aktif 30 hari"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 2,
+                    "name": "Kuota Ultimate 25GB",
+                    "operator": "xl",
+                    "price": 100000,
+                    "duration": "30 Hari",
+                    "quota": 25,
+                    "description": "Kuota 25GB (20GB Reguler + 5GB Apps) dengan kecepatan maksimal. Cocok untuk streaming dan download.",
+                    "features": ["20GB Kuota Reguler", "5GB Kuota Apps (YouTube, Netflix)", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 3,
+                    "name": "Kuota Murah 5GB",
+                    "operator": "axis",
+                    "price": 25000,
+                    "duration": "7 Hari",
+                    "quota": 5,
+                    "description": "Kuota 5GB untuk 7 hari dengan harga terjangkau. Cocok untuk penggunaan ringan dan cadangan kuota.",
+                    "features": ["5GB Kuota Reguler", "Tanpa batasan kecepatan", "Masa aktif 7 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 4,
+                    "name": "Kuota Unlimited 30GB",
+                    "operator": "indosat",
+                    "price": 150000,
+                    "duration": "30 Hari",
+                    "quota": 30,
+                    "description": "Kuota 30GB dengan akses unlimited setelah kuota habis (kecepatan dikurangi). Cocok untuk heavy user.",
+                    "features": ["30GB Kuota Reguler", "Unlimited setelah kuota habis", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 5,
+                    "name": "Kuota Gaming 15GB",
+                    "operator": "three",
+                    "price": 75000,
+                    "duration": "30 Hari",
+                    "quota": 15,
+                    "description": "Kuota khusus gaming 15GB dengan ping rendah. Cocok untuk bermain Mobile Legends, PUBG, dan game online lainnya.",
+                    "features": ["15GB Kuota Gaming", "Ping rendah untuk gaming", "Masa aktif 30 hari"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 6,
+                    "name": "Kuota Harian 2GB",
+                    "operator": "telkomsel",
+                    "price": 10000,
+                    "duration": "1 Hari",
+                    "quota": 2,
+                    "description": "Kuota 2GB untuk 1 hari. Solusi cepat ketika kuota utama habis dan butuh koneksi internet segera.",
+                    "features": ["2GB Kuota Reguler", "Aktif 24 jam", "Proses instan"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 7,
+                    "name": "Kuota YouTube 20GB",
+                    "operator": "xl",
+                    "price": 80000,
+                    "duration": "30 Hari",
+                    "quota": 20,
+                    "description": "Kuota khusus YouTube 20GB dengan akses unlimited di jam tertentu. Cocok untuk pecinta konten video.",
+                    "features": ["20GB Kuota YouTube", "Unlimited YouTube 00:00-06:00", "Masa aktif 30 hari"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 8,
+                    "name": "Kuota Sosmed 10GB",
+                    "operator": "axis",
+                    "price": 35000,
+                    "duration": "30 Hari",
+                    "quota": 10,
+                    "description": "Kuota 10GB khusus sosial media (Instagram, Facebook, Twitter, WhatsApp). Cocok untuk aktif di media sosial.",
+                    "features": ["10GB Kuota Sosial Media", "Akses Instagram, Facebook, Twitter, WhatsApp", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 9,
+                    "name": "Kuota Weekend 15GB",
+                    "operator": "indosat",
+                    "price": 45000,
+                    "duration": "30 Hari",
+                    "quota": 15,
+                    "description": "Kuota 15GB dengan ekstra kuota di hari Sabtu dan Minggu. Cocok untuk yang aktif di akhir pekan.",
+                    "features": ["10GB Kuota Reguler", "5GB Kuota Weekend (Sabtu-Minggu)", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 10,
+                    "name": "Kuota Unlimited 50GB",
+                    "operator": "telkomsel",
+                    "price": 200000,
+                    "duration": "30 Hari",
+                    "quota": 50,
+                    "description": "Kuota 50GB dengan akses unlimited setelah kuota habis. Cocok untuk kebutuhan bisnis dan keluarga.",
+                    "features": ["50GB Kuota Reguler", "Unlimited setelah kuota habis", "Masa aktif 30 hari"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 11,
+                    "name": "Kuota Malam 30GB",
+                    "operator": "three",
+                    "price": 60000,
+                    "duration": "30 Hari",
+                    "quota": 30,
+                    "description": "Kuota 30GB khusus malam hari (00:00-06:00). Cocok untuk streaming dan download di malam hari.",
+                    "features": ["30GB Kuota Malam", "00:00-06:00", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 12,
+                    "name": "Kuota Harian 5GB",
+                    "operator": "indosat",
+                    "price": 20000,
+                    "duration": "3 Hari",
+                    "quota": 5,
+                    "description": "Kuota 5GB untuk 3 hari. Cocok untuk perjalanan singkat atau kebutuhan darurat.",
+                    "features": ["5GB Kuota Reguler", "Aktif 3 hari", "Proses instan"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 13,
+                    "name": "Kuota Flexi By.U 20GB",
+                    "operator": "byu",
+                    "price": 75000,
+                    "duration": "30 Hari",
+                    "quota": 20,
+                    "description": "Kuota fleksibel By.U 20GB dengan akses semua aplikasi. Cocok untuk pengguna yang ingin kebebasan.",
+                    "features": ["20GB Kuota Flexi", "Akses semua aplikasi", "Masa aktif 30 hari"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 14,
+                    "name": "Kuota By.U Unlimited 15GB",
+                    "operator": "byu",
+                    "price": 90000,
+                    "duration": "30 Hari",
+                    "quota": 15,
+                    "description": "Kuota 15GB By.U dengan unlimited setelah kuota habis. Kecepatan stabil untuk semua kebutuhan.",
+                    "features": ["15GB Kuota Reguler", "Unlimited setelah kuota habis", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 15,
+                    "name": "Kuota By.U Harian 3GB",
+                    "operator": "byu",
+                    "price": 15000,
+                    "duration": "1 Hari",
+                    "quota": 3,
+                    "description": "Kuota harian By.U 3GB untuk kebutuhan mendesak. Aktif 24 jam setelah pembelian.",
+                    "features": ["3GB Kuota Reguler", "Aktif 24 jam", "Proses instan"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 16,
+                    "name": "Kuota Smartfren Unlimited 25GB",
+                    "operator": "smartfren",
+                    "price": 85000,
+                    "duration": "30 Hari",
+                    "quota": 25,
+                    "description": "Kuota 25GB Smartfren dengan unlimited setelah kuota habis. Jaringan 4G yang stabil.",
+                    "features": ["25GB Kuota Reguler", "Unlimited setelah kuota habis", "Jaringan 4G stabil"],
+                    "isBestSeller": true
+                },
+                {
+                    "id": 17,
+                    "name": "Kuota Smartfren 10GB",
+                    "operator": "smartfren",
+                    "price": 40000,
+                    "duration": "30 Hari",
+                    "quota": 10,
+                    "description": "Kuota 10GB Smartfren untuk penggunaan bulanan. Cocok untuk browsing dan media sosial.",
+                    "features": ["10GB Kuota Reguler", "Akses semua aplikasi", "Masa aktif 30 hari"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 18,
+                    "name": "Kuota Smartfren 5GB",
+                    "operator": "smartfren",
+                    "price": 25000,
+                    "duration": "7 Hari",
+                    "quota": 5,
+                    "description": "Kuota 5GB Smartfren untuk 7 hari. Solusi ekonomis untuk kebutuhan internet mingguan.",
+                    "features": ["5GB Kuota Reguler", "Aktif 7 hari", "Harga ekonomis"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 19,
+                    "name": "Kuota By.U 7GB",
+                    "operator": "byu",
+                    "price": 35000,
+                    "duration": "7 Hari",
+                    "quota": 7,
+                    "description": "Kuota 7GB By.U untuk penggunaan mingguan. Cocok untuk yang butuh kuota dalam jumlah sedang.",
+                    "features": ["7GB Kuota Reguler", "Aktif 7 hari", "Harga terjangkau"],
+                    "isBestSeller": false
+                },
+                {
+                    "id": 20,
+                    "name": "Kuota Smartfren Unlimited 50GB",
+                    "operator": "smartfren",
+                    "price": 120000,
+                    "duration": "30 Hari",
+                    "quota": 50,
+                    "description": "Kuota besar 50GB Smartfren dengan unlimited setelah kuota habis. Untuk pengguna berat.",
+                    "features": ["50GB Kuota Reguler", "Unlimited setelah kuota habis", "Untuk pengguna berat"],
+                    "isBestSeller": true
+                }
+            ]
+        }
+    </script>
+
+    <script>
+        // State management
+        const cart = {
+            items: [],
+            total: 0,
+            
+            addItem(item) {
+                this.items.push(item);
+                this.calculateTotal();
+                this.saveToLocalStorage();
+                this.updateCartUI();
+            },
+            
+            removeItem(itemId) {
+                this.items = this.items.filter(item => item.id !== itemId);
+                this.calculateTotal();
+                this.saveToLocalStorage();
+                this.updateCartUI();
+            },
+            
+            clearCart() {
+                this.items = [];
+                this.total = 0;
+                this.saveToLocalStorage();
+                this.updateCartUI();
+            },
+            
+            calculateTotal() {
+                this.total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            },
+            
+            saveToLocalStorage() {
+                localStorage.setItem('telcoCart', JSON.stringify(this.items));
+            },
+            
+            loadFromLocalStorage() {
+                const savedCart = localStorage.getItem('telcoCart');
+                if (savedCart) {
+                    this.items = JSON.parse(savedCart);
+                    this.calculateTotal();
+                    this.updateCartUI();
+                }
+            },
+            
+            updateCartUI() {
+                // Update cart count
+                const cartCount = document.getElementById('cart-count');
+                cartCount.textContent = this.items.length;
+                
+                // Update cart items display
+                this.renderCartItems();
+                
+                // Update cart total
+                const cartTotal = document.getElementById('cart-total');
+                cartTotal.textContent = `Rp ${this.total.toLocaleString('id-ID')}`;
+                
+                // Enable/disable checkout button
+                const checkoutBtn = document.getElementById('checkout-btn');
+                checkoutBtn.disabled = this.items.length === 0;
+                
+                // Show/hide empty cart message
+                const cartEmpty = document.getElementById('cart-empty');
+                if (this.items.length === 0) {
+                    cartEmpty.classList.remove('hidden');
+                } else {
+                    cartEmpty.classList.add('hidden');
+                }
+            },
+            
+            renderCartItems() {
+                const cartItemsContainer = document.getElementById('cart-items');
+                
+                // Clear existing items except empty message
+                const emptyMsg = document.getElementById('cart-empty');
+                cartItemsContainer.innerHTML = '';
+                cartItemsContainer.appendChild(emptyMsg);
+                
+                if (this.items.length === 0) return;
+                
+                let itemsHTML = '';
+                
+                this.items.forEach((item, index) => {
+                    itemsHTML += `
+                        <div class="cart-item bg-white border p-3 mb-3 fade-in">
+                            <div class="flex justify-between items-start">
+                                <div class="flex-1">
+                                    <h4 class="font-medium text-gray-800 text-sm">${item.name}</h4>
+                                    <div class="flex justify-between items-center mt-2">
+                                        <div class="text-gray-600 text-xs">
+                                            <span class="font-medium">Rp ${item.price.toLocaleString('id-ID')}</span>
+                                            ${item.quantity > 1 ? `<span class="ml-2">× ${item.quantity}</span>` : ''}
+                                        </div>
+                                        <div class="text-bukalapak-green font-medium">
+                                            Rp ${(item.price * item.quantity).toLocaleString('id-ID')}
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="remove-from-cart ml-3 text-red-500 hover:text-red-700" data-id="${item.id}">
+                                    <i class="fas fa-trash text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                emptyMsg.insertAdjacentHTML('beforebegin', itemsHTML);
+            }
+        };
+
+        // Data untuk operator (nama lengkap dan warna)
+        const operatorData = {
+            'telkomsel': { name: 'Telkomsel', color: 'red' },
+            'xl': { name: 'XL', color: 'blue' },
+            'axis': { name: 'Axis', color: 'purple' },
+            'indosat': { name: 'Indosat', color: 'green' },
+            'three': { name: 'Tri', color: 'yellow' },
+            'byu': { name: 'By.U', color: 'pink' },
+            'smartfren': { name: 'Smartfren', color: 'orange' }
+        };
+
+        // Variabel untuk filter dan pencarian
+        let allPackages = [];
+        let currentFilter = 'all';
+        let currentSearch = '';
+        let currentOperator = null; // Variabel baru untuk operator yang dipilih
+
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Cart functionality
+        document.getElementById('cart-toggle').addEventListener('click', openCart);
+        document.getElementById('view-cart-btn-mobile').addEventListener('click', openCart);
+        document.getElementById('cart-close').addEventListener('click', closeCart);
+        document.getElementById('cart-overlay').addEventListener('click', closeCart);
+
+        function openCart() {
+            document.getElementById('cart-sidebar').classList.add('open');
+            document.getElementById('cart-overlay').classList.add('open');
+        }
+
+        function closeCart() {
+            document.getElementById('cart-sidebar').classList.remove('open');
+            document.getElementById('cart-overlay').classList.remove('open');
+        }
+
+        // Clear cart button
+        document.getElementById('clear-cart').addEventListener('click', function() {
+            if (cart.items.length === 0) return;
+            if (confirm('Apakah Anda yakin ingin mengosongkan keranjang?')) {
+                cart.clearCart();
+            }
+        });
+
+        // Checkout button
+        document.getElementById('checkout-btn').addEventListener('click', function() {
+            if (cart.items.length === 0) return;
+            
+            // Show order modal
+            const orderModal = document.getElementById('orderModal');
+            const modalItems = document.getElementById('modal-items');
+            const modalTotal = document.getElementById('modal-total');
+            
+            // Populate modal with cart items
+            let itemsHTML = '<p class="text-sm font-medium text-gray-700 mb-2">Item pesanan Anda:</p>';
+            cart.items.forEach(item => {
+                itemsHTML += `
+                    <div class="flex justify-between items-center mb-1 text-sm">
+                        <span class="text-gray-600 truncate">${item.name}</span>
+                        <span class="font-medium">Rp ${(item.price * item.quantity).toLocaleString('id-ID')}</span>
+                    </div>
+                `;
+            });
+            
+            modalItems.innerHTML = itemsHTML;
+            modalTotal.textContent = `Rp ${cart.total.toLocaleString('id-ID')}`;
+            
+            orderModal.classList.remove('hidden');
+            closeCart();
+        });
+
+        // WhatsApp float button
+        document.getElementById('whatsapp-float').addEventListener('click', function() {
+            if (cart.items.length === 0) {
+                openCart();
+            } else {
+                document.getElementById('checkout-btn').click();
+            }
+        });
+
+        // Order modal functionality
+        document.getElementById('cancelOrder').addEventListener('click', function() {
+            document.getElementById('orderModal').classList.add('hidden');
+        });
+
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            
+            // Format phone number
+            const formattedPhone = phone.startsWith('0') ? '62' + phone.substring(1) : phone;
+            
+            // Create WhatsApp message
+            let message = `Halo, saya ingin memesan dari MyTelcoShop:\n\n`;
+            message += `📋 *Rincian Pesanan:*\n`;
+            
+            cart.items.forEach(item => {
+                message += `• ${item.name}: Rp ${item.price.toLocaleString('id-ID')}`;
+                if (item.quantity > 1) message += ` (${item.quantity}x)`;
+                message += '\n';
+            });
+            
+            message += `\n💰 *Total: Rp ${cart.total.toLocaleString('id-ID')}*\n`;
+            message += `📱 *Nomor HP: ${phone}*\n`;
+            if (email) message += `📧 *Email: ${email}*\n`;
+            message += `\nSilakan informasikan cara pembayaran dan proses aktivasi. Terima kasih.`;
+            
+            // Encode message for URL
+            const encodedMessage = encodeURIComponent(message);
+            
+            // Open WhatsApp
+            window.open(`https://wa.me/6281234567890?text=${encodedMessage}`, '_blank');
+            
+            // Close modal and clear cart
+            document.getElementById('orderModal').classList.add('hidden');
+            cart.clearCart();
+            
+            // Reset form
+            document.getElementById('orderForm').reset();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.add('hidden');
+            }
+        });
+
+        // Fungsi untuk memuat semua paket ke variabel allPackages
+        function loadAllPackages() {
+            try {
+                const jsonData = document.getElementById('packages-data').textContent;
+                const data = JSON.parse(jsonData);
+                allPackages = data.packages;
+            } catch (error) {
+                console.error('Error loading packages:', error);
+                allPackages = [];
+            }
+        }
+
+        // Fungsi untuk memfilter paket berdasarkan kuota
+        function filterByQuota(packages, filter) {
+            if (filter === 'all') return packages;
+            
+            switch(filter) {
+                case '0-10':
+                    return packages.filter(pkg => pkg.quota <= 10);
+                case '11-20':
+                    return packages.filter(pkg => pkg.quota >= 11 && pkg.quota <= 20);
+                case '21-30':
+                    return packages.filter(pkg => pkg.quota >= 21 && pkg.quota <= 30);
+                case '31-50':
+                    return packages.filter(pkg => pkg.quota >= 31 && pkg.quota <= 50);
+                case '51+':
+                    return packages.filter(pkg => pkg.quota > 50);
+                case 'unlimited':
+                    return packages.filter(pkg => 
+                        pkg.name.toLowerCase().includes('unlimited') || 
+                        pkg.description.toLowerCase().includes('unlimited')
+                    );
+                default:
+                    return packages;
+            }
+        }
+
+        // Fungsi untuk mencari paket berdasarkan kata kunci
+        function searchPackages(packages, keyword) {
+            if (!keyword.trim()) return packages;
+            
+            const searchTerm = keyword.toLowerCase();
+            return packages.filter(pkg => {
+                // Cari di nama paket
+                if (pkg.name.toLowerCase().includes(searchTerm)) return true;
+                
+                // Cari di deskripsi
+                if (pkg.description.toLowerCase().includes(searchTerm)) return true;
+                
+                // Cari di jumlah kuota (misal: "10gb", "25gb")
+                const quotaMatch = pkg.quota.toString().includes(searchTerm.replace('gb', '').trim());
+                if (quotaMatch) return true;
+                
+                // Cari di operator
+                const operatorInfo = operatorData[pkg.operator] || { name: pkg.operator };
+                if (operatorInfo.name.toLowerCase().includes(searchTerm)) return true;
+                
+                return false;
+            });
+        }
+
+        // Fungsi untuk memfilter paket berdasarkan operator
+        function filterByOperator(packages, operator) {
+            if (!operator) return packages;
+            return packages.filter(pkg => pkg.operator === operator);
+        }
+
+        // Fungsi untuk menampilkan paket dengan filter dan pencarian
+        function renderFilteredPackages() {
+            const packagesContainer = document.getElementById('packages-container');
+            const noResultsElement = document.getElementById('no-results');
+            const searchResultsInfo = document.getElementById('search-results-info');
+            const searchKeywordElement = document.getElementById('search-keyword');
+            
+            // Filter paket dengan semua kriteria
+            let filteredPackages = filterByOperator(allPackages, currentOperator);
+            filteredPackages = filterByQuota(filteredPackages, currentFilter);
+            filteredPackages = searchPackages(filteredPackages, currentSearch);
+            
+            // Kosongkan container
+            packagesContainer.innerHTML = '';
+            
+            // Tampilkan pesan jika tidak ada hasil
+            if (filteredPackages.length === 0) {
+                noResultsElement.classList.remove('hidden');
+                packagesContainer.classList.add('hidden');
+                searchResultsInfo.classList.add('hidden');
+                return;
+            }
+            
+            // Sembunyikan pesan tidak ada hasil
+            noResultsElement.classList.add('hidden');
+            packagesContainer.classList.remove('hidden');
+            
+            // Tampilkan info pencarian jika ada
+            if (currentSearch.trim() || currentFilter !== 'all' || currentOperator) {
+                let filterText = '';
+                
+                if (currentSearch.trim()) {
+                    filterText += `"${currentSearch}"`;
+                }
+                
+                if (currentOperator) {
+                    if (filterText) filterText += ' dan ';
+                    const operatorInfo = operatorData[currentOperator] || { name: currentOperator };
+                    filterText += operatorInfo.name;
+                }
+                
+                if (currentFilter !== 'all') {
+                    if (filterText) filterText += ' dan ';
+                    const filterLabels = {
+                        '0-10': '≤ 10GB',
+                        '11-20': '11-20GB',
+                        '21-30': '21-30GB',
+                        '31-50': '31-50GB',
+                        '51+': '> 50GB',
+                        'unlimited': 'Unlimited'
+                    };
+                    filterText += filterLabels[currentFilter] || currentFilter;
+                }
+                
+                searchKeywordElement.textContent = filterText;
+                searchResultsInfo.classList.remove('hidden');
+            } else {
+                searchResultsInfo.classList.add('hidden');
+            }
+            
+            // Render setiap paket
+            filteredPackages.forEach(pkg => {
+                const packageCard = createPackageCard(pkg);
+                packagesContainer.appendChild(packageCard);
+            });
+            
+            // Inisialisasi ulang tombol cart
+            initializeCartButtons();
+        }
+
+        // Fungsi untuk membuat elemen kartu paket
+        function createPackageCard(pkg) {
+            const operatorInfo = operatorData[pkg.operator] || { name: pkg.operator, color: 'gray' };
+            const colorClass = {
+                'red': 'border-red-200 hover:border-red-400',
+                'blue': 'border-blue-200 hover:border-blue-400',
+                'purple': 'border-purple-200 hover:border-purple-400',
+                'green': 'border-green-200 hover:border-green-400',
+                'yellow': 'border-yellow-200 hover:border-yellow-400',
+                'pink': 'border-pink-200 hover:border-pink-400',
+                'orange': 'border-orange-200 hover:border-orange-400',
+                'gray': 'border-gray-200 hover:border-gray-400'
+            }[operatorInfo.color] || 'border-gray-200 hover:border-gray-400';
+            
+            const card = document.createElement('div');
+            card.className = `package-card bg-white ${colorClass} fade-in`;
+            card.setAttribute('data-operator', pkg.operator);
+            card.setAttribute('data-quota', pkg.quota);
+            
+            // Format harga
+            const formattedPrice = pkg.price.toLocaleString('id-ID');
+            
+            card.innerHTML = `
+                <div class="p-4">
+                    ${pkg.isBestSeller ? '<div class="best-seller-tag">TERLARIS</div>' : ''}
+                    
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <span class="bg-gray-100 text-gray-700 text-xs font-medium px-2 py-1 rounded">${operatorInfo.name}</span>
+                            <h4 class="text-base font-bold text-gray-800 mt-2">${pkg.name}</h4>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <div class="price-tag text-xl">Rp ${formattedPrice}</div>
+                    </div>
+                    
+                    <p class="text-gray-600 text-sm mb-4">${pkg.description}</p>
+                    
+                    <div class="text-xs text-gray-500 mb-4">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-calendar-alt mr-2"></i>
+                            <span>${pkg.duration}</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-database mr-2"></i>
+                            <span>${pkg.quota} GB Kuota</span>
+                        </div>
+                    </div>
+                    
+                    <button class="add-to-cart-btn w-full bg-bukalapak-green text-white py-2 rounded-lg font-medium text-sm hover:bg-green-600 transition flex items-center justify-center"
+                            data-id="package-${pkg.id}"
+                            data-name="${pkg.name} (${operatorInfo.name})"
+                            data-price="${pkg.price}"
+                            data-type="package">
+                        <i class="fas fa-cart-plus mr-2"></i> Tambah ke Keranjang
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Initialize cart buttons
+        function initializeCartButtons() {
+            // Add to cart buttons for packages
+            document.querySelectorAll('.add-to-cart-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const item = {
+                        id: this.getAttribute('data-id'),
+                        name: this.getAttribute('data-name'),
+                        price: parseInt(this.getAttribute('data-price')),
+                        quantity: 1,
+                        type: this.getAttribute('data-type')
+                    };
+                    
+                    // Check if item already in cart
+                    const existingItem = cart.items.find(cartItem => cartItem.id === item.id);
+                    if (existingItem) {
+                        existingItem.quantity += 1;
+                        cart.calculateTotal();
+                        cart.saveToLocalStorage();
+                        cart.updateCartUI();
+                    } else {
+                        cart.addItem(item);
+                    }
+                    
+                    // Show feedback
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i class="fas fa-check mr-2"></i> Ditambahkan!';
+                    this.classList.remove('bg-bukalapak-green', 'hover:bg-green-600');
+                    this.classList.add('bg-green-600');
+                    
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.classList.remove('bg-green-600');
+                        this.classList.add('bg-bukalapak-green', 'hover:bg-green-600');
+                    }, 1500);
+                });
+            });
+            
+            // Remove from cart buttons (delegated event)
+            document.getElementById('cart-items').addEventListener('click', function(e) {
+                if (e.target.closest('.remove-from-cart')) {
+                    const button = e.target.closest('.remove-from-cart');
+                    const itemId = button.getAttribute('data-id');
+                    cart.removeItem(itemId);
+                }
+            });
+        }
+
+        // Initialize category filter - DIPERBAIKI
+        function initializeCategoryFilter() {
+            const categoryCards = document.querySelectorAll('.category-card');
+            
+            categoryCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const operator = this.getAttribute('data-operator');
+                    
+                    // Reset semua kategori ke non-active
+                    categoryCards.forEach(c => {
+                        c.classList.remove('active', 'border-red-500', 'border-blue-500', 'border-purple-500', 'border-green-500', 'border-yellow-500', 'border-pink-500', 'border-orange-500');
+                        c.classList.add('border-gray-300');
+                    });
+                    
+                    // Aktifkan kategori yang dipilih
+                    this.classList.add('active');
+                    this.classList.remove('border-gray-300');
+                    
+                    // Set border color berdasarkan operator
+                    const borderColors = {
+                        'telkomsel': 'border-red-500',
+                        'xl': 'border-blue-500',
+                        'axis': 'border-purple-500',
+                        'indosat': 'border-green-500',
+                        'three': 'border-yellow-500',
+                        'byu': 'border-pink-500',
+                        'smartfren': 'border-orange-500'
+                    };
+                    
+                    if (borderColors[operator]) {
+                        this.classList.add(borderColors[operator]);
+                    }
+                    
+                    // Set operator yang dipilih
+                    if (currentOperator === operator) {
+                        // Klik kategori yang sama, reset ke semua operator
+                        currentOperator = null;
+                        this.classList.remove('active', borderColors[operator]);
+                        this.classList.add('border-gray-300');
+                    } else {
+                        currentOperator = operator;
+                    }
+                    
+                    // Render ulang paket dengan filter operator baru
+                    renderFilteredPackages();
+                });
+            });
+        }
+
+        // Fungsi untuk menginisialisasi event listener pencarian
+        function initializeSearch() {
+            const searchInput = document.getElementById('search-input');
+            const searchInputMobile = document.getElementById('search-input-mobile');
+            const clearSearch = document.getElementById('clear-search');
+            const clearSearchMobile = document.getElementById('clear-search-mobile');
+            const quotaFilter = document.getElementById('quota-filter');
+            const clearAllFilters = document.getElementById('clear-all-filters');
+            
+            // Fungsi untuk melakukan pencarian
+            function performSearch() {
+                const searchValue = searchInput.value || searchInputMobile.value;
+                currentSearch = searchValue;
+                renderFilteredPackages();
+                
+                // Tampilkan tombol clear jika ada teks
+                if (searchValue.trim()) {
+                    clearSearch.classList.remove('hidden');
+                    clearSearchMobile.classList.remove('hidden');
+                } else {
+                    clearSearch.classList.add('hidden');
+                    clearSearchMobile.classList.add('hidden');
+                }
+            }
+            
+            // Event listener untuk pencarian desktop
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    // Update mobile input juga
+                    searchInputMobile.value = this.value;
+                    performSearch();
+                });
+                
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            // Event listener untuk pencarian mobile
+            if (searchInputMobile) {
+                searchInputMobile.addEventListener('input', function() {
+                    // Update desktop input juga
+                    searchInput.value = this.value;
+                    performSearch();
+                });
+                
+                searchInputMobile.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performSearch();
+                    }
+                });
+            }
+            
+            // Tombol clear search
+            if (clearSearch) {
+                clearSearch.addEventListener('click', function() {
+                    searchInput.value = '';
+                    searchInputMobile.value = '';
+                    currentSearch = '';
+                    performSearch();
+                    this.classList.add('hidden');
+                    clearSearchMobile.classList.add('hidden');
+                });
+            }
+            
+            if (clearSearchMobile) {
+                clearSearchMobile.addEventListener('click', function() {
+                    searchInput.value = '';
+                    searchInputMobile.value = '';
+                    currentSearch = '';
+                    performSearch();
+                    this.classList.add('hidden');
+                    clearSearch.classList.add('hidden');
+                });
+            }
+            
+            // Filter kuota
+            if (quotaFilter) {
+                quotaFilter.addEventListener('change', function() {
+                    currentFilter = this.value;
+                    renderFilteredPackages();
+                });
+            }
+            
+            // Hapus semua filter
+            if (clearAllFilters) {
+                clearAllFilters.addEventListener('click', function() {
+                    // Reset pencarian
+                    searchInput.value = '';
+                    searchInputMobile.value = '';
+                    currentSearch = '';
+                    
+                    // Reset filter kuota
+                    quotaFilter.value = 'all';
+                    currentFilter = 'all';
+                    
+                    // Reset filter operator
+                    currentOperator = null;
+                    const categoryCards = document.querySelectorAll('.category-card');
+                    categoryCards.forEach(card => {
+                        card.classList.remove('active', 'border-red-500', 'border-blue-500', 'border-purple-500', 'border-green-500', 'border-yellow-500', 'border-pink-500', 'border-orange-500');
+                        card.classList.add('border-gray-300');
+                    });
+                    
+                    // Sembunyikan tombol clear
+                    clearSearch.classList.add('hidden');
+                    clearSearchMobile.classList.add('hidden');
+                    
+                    // Render ulang
+                    renderFilteredPackages();
+                });
+            }
+        }
+
+        // Load more packages button
+        document.getElementById('load-more-packages').addEventListener('click', function() {
+            // In a real app, this would load more packages from an API
+            // For now, we'll just show a message
+            this.innerHTML = '<i class="fas fa-check mr-2"></i> Semua paket sudah ditampilkan';
+            this.disabled = true;
+            this.classList.remove('hover:bg-bukalapak-green', 'hover:text-white');
+            this.classList.add('bg-gray-100', 'text-gray-400', 'border-gray-300');
+            
+            // Show notification
+            setTimeout(() => {
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg text-sm z-50 fade-in';
+                notification.textContent = 'Semua paket sudah ditampilkan';
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.remove('fade-in');
+                    setTimeout(() => {
+                        document.body.removeChild(notification);
+                    }, 300);
+                }, 2000);
+            }, 300);
+        });
+
+        // Smooth scroll for anchor links
+        function initializeSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open
+                        const mobileMenu = document.getElementById('mobile-menu');
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        // Fungsi untuk memuat dan menampilkan paket
+        function loadPackages() {
+            // Load semua paket ke variabel global
+            loadAllPackages();
+            
+            // Render paket dengan filter default
+            renderFilteredPackages();
+            
+            // Inisialisasi event listener pencarian
+            initializeSearch();
+            
+            // Inisialisasi filter kategori
+            initializeCategoryFilter();
+        }
+
+        // Inisialisasi semua fungsi saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load cart dari localStorage
+            cart.loadFromLocalStorage();
+            
+            // Load packages dan inisialisasi fitur
+            loadPackages();
+            initializeSmoothScroll();
+            
+            // Tambahkan animasi ke elemen
+            setTimeout(() => {
+                document.querySelectorAll('.fade-in').forEach(el => {
+                    el.classList.add('fade-in');
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>
